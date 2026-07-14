@@ -389,3 +389,252 @@ body {
   background: #4b4b4b;
   color: #ffffff;
 }
+
+.menu-overlay {
+  inset: 0;
+  position: absolute;
+  z-index: 10;
+}
+
+.side-panel {
+  background: #111214;
+  color: var(--panel-white);
+  height: 100%;
+  left: 0;
+  padding: 14px 12px;
+  position: absolute;
+  top: 0;
+  width: 210px;
+  z-index: 12;
+}
+
+.side-panel--settings {
+  padding-top: 54px;
+}
+
+.menu-backdrop {
+  background: rgba(175, 175, 175, 0.68);
+  border: 0;
+  cursor: pointer;
+  height: 100%;
+  position: absolute;
+  right: 0;
+  top: 0;
+  width: calc(100% - 210px);
+  z-index: 11;
+}
+
+.settings-cog,
+.menu-button--inside {
+  background: transparent;
+  border: 0;
+  color: var(--panel-white);
+  cursor: pointer;
+  font-size: 28px;
+  font-weight: 900;
+  left: 10px;
+  position: absolute;
+  top: 8px;
+}
+
+.menu-links {
+  display: flex;
+  flex-direction: column;
+  gap: 9px;
+  margin-top: 42px;
+}
+
+.menu-links button {
+  background: transparent;
+  border: 0;
+  color: var(--panel-white);
+  cursor: pointer;
+  font-size: 13px;
+  font-weight: 900;
+  padding: 0;
+  text-align: left;
+}
+
+.side-panel h2 {
+  font-size: 13px;
+  margin: 14px 0 5px;
+}
+
+.account-select,
+.admin-account {
+  align-items: center;
+  background: var(--panel-white);
+  border: 1px solid #cfcfcf;
+  border-radius: 4px;
+  color: var(--text-black);
+  display: grid;
+  font-size: 13px;
+  font-weight: 900;
+  gap: 5px;
+  grid-template-columns: 22px 1fr 18px;
+  min-height: 28px;
+  padding: 3px 5px;
+  width: 100%;
+}
+
+.account-select {
+  cursor: pointer;
+}
+
+.admin-account {
+  background: transparent;
+  border: 0;
+  color: var(--panel-white);
+  grid-template-columns: 22px 1fr;
+  padding-left: 0;
+}
+
+.account-avatar {
+  align-items: center;
+  background: #39a8f2;
+  border-radius: 50%;
+  color: #cfefff;
+  display: inline-flex;
+  height: 22px;
+  justify-content: center;
+  width: 22px;
+}
+
+.account-calendar {
+  background: var(--panel-white);
+  color: var(--text-black);
+  margin-top: 4px;
+  min-height: 190px;
+  padding: 5px;
+}
+
+.account-calendar h2 {
+  color: var(--text-black);
+  font-size: 10px;
+  margin: 4px 0 2px;
+}
+
+.calendar-row,
+.recent-task {
+  align-items: center;
+  display: grid;
+  font-size: 10px;
+  gap: 4px;
+  grid-template-columns: 1fr auto auto;
+  min-height: 22px;
+}
+
+.calendar-remove,
+.calendar-show {
+  border: 1px solid #b8b8b8;
+  border-radius: 999px;
+  cursor: pointer;
+  font-size: 8px;
+  font-weight: 900;
+  padding: 3px 4px;
+}
+
+.calendar-remove {
+  background: #ed2e38;
+  color: #ffffff;
+}
+
+.calendar-show {
+  background: #ffffff;
+  color: var(--text-black);
+}
+
+.recent-task {
+  background: #dcdcdc;
+  grid-template-columns: 1fr auto;
+  margin-top: 18px;
+}
+
+.recent-task__check {
+  align-items: center;
+  background: #1f9c73;
+  color: #ffffff;
+  display: inline-flex;
+  font-weight: 900;
+  height: 20px;
+  justify-content: center;
+  width: 42px;
+}
+
+.setting-row {
+  align-items: center;
+  display: grid;
+  font-size: 13px;
+  font-weight: 900;
+  gap: 8px;
+  grid-template-columns: auto 1fr 28px;
+  margin-bottom: 20px;
+}
+
+.setting-row input {
+  accent-color: var(--panel-white);
+  width: 100%;
+}
+
+.setting-row output {
+  border: 1px solid var(--panel-white);
+  font-size: 11px;
+  padding: 1px 3px;
+  text-align: center;
+}
+
+.theme-picker {
+  border: 0;
+  margin: 0 0 18px;
+  padding: 0;
+}
+
+.theme-picker legend {
+  font-size: 13px;
+  font-weight: 900;
+  margin-bottom: 8px;
+}
+
+.theme-dot {
+  border: 2px solid var(--panel-white);
+  border-radius: 50%;
+  cursor: pointer;
+  height: 34px;
+  margin-right: 12px;
+  width: 34px;
+}
+
+.theme-dot--white {
+  background: #ffffff;
+}
+
+.theme-dot--blue {
+  background: #117fe6;
+}
+
+.theme-dot--orange {
+  background: #ff9140;
+}
+
+.create-account,
+.search-accounts {
+  border: 0;
+  border-radius: 4px;
+  cursor: pointer;
+  display: block;
+  font-size: 13px;
+  font-weight: 900;
+  margin-bottom: 10px;
+  min-height: 34px;
+  width: 100%;
+}
+
+.create-account {
+  background: var(--accent-green);
+  color: var(--text-black);
+}
+
+.search-accounts {
+  background: var(--panel-white);
+  color: var(--text-black);
+}
