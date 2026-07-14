@@ -35,6 +35,213 @@ let selectedDate = new Date(2026, 2, 17, 8, 39);
 let expandedTaskId = 'jo-visit';
 let finishedSequence = 0;
 
+function injectUserHomepageStyles() {
+  if (document.getElementById('user-homepage-styles')) {
+    return;
+  }
+
+  const style = document.createElement('style');
+  style.id = 'user-homepage-styles';
+  style.textContent = `
+    :root {
+      --user-screen-black: #101114;
+      --user-panel-white: #f7f7f7;
+      --user-grey: #777777;
+      --user-dark-grey: #2d2d2d;
+      --user-blue: #38a7f2;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      align-items: center;
+      background: #ffffff;
+      display: flex;
+      font-family: Arial, Helvetica, sans-serif;
+      justify-content: center;
+      margin: 0;
+      min-height: 100vh;
+    }
+
+    .elderly-home-screen {
+      background: var(--user-screen-black);
+      border: 10px solid #333638;
+      border-radius: 18px;
+      box-shadow: 0 18px 40px rgba(0, 0, 0, 0.25);
+      color: var(--user-panel-white);
+      height: 620px;
+      overflow: hidden;
+      padding: 8px;
+      width: 320px;
+    }
+
+    .elderly-clock {
+      color: #cfcfcf;
+      font-size: 16px;
+      margin: 0 0 4px;
+      text-align: center;
+    }
+
+    .elderly-date-row {
+      align-items: center;
+      display: grid;
+      gap: 8px;
+      grid-template-columns: 42px 1fr 42px;
+    }
+
+    .day-arrow {
+      align-items: center;
+      background: #7f7f7f;
+      border: 0;
+      border-radius: 50%;
+      color: var(--user-panel-white);
+      cursor: pointer;
+      display: flex;
+      font-size: 34px;
+      font-weight: 900;
+      height: 42px;
+      justify-content: center;
+      width: 42px;
+    }
+
+    .elderly-date {
+      display: flex;
+      flex-direction: column;
+      font-weight: 900;
+      line-height: 0.86;
+      text-align: center;
+    }
+
+    .elderly-date strong {
+      font-size: 82px;
+    }
+
+    .elderly-date span {
+      font-size: 40px;
+    }
+
+    .user-task-list {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      height: 380px;
+      margin-top: 16px;
+      overflow-y: auto;
+      padding-right: 4px;
+    }
+
+    .user-task {
+      background: var(--user-panel-white);
+      border: 3px solid #dddddd;
+      border-radius: 14px;
+      color: #020202;
+      overflow: hidden;
+    }
+
+    .user-task--finished {
+      background: #1e1e1e;
+      border-color: #3b3b3b;
+      color: #5d5d5d;
+      order: 10;
+    }
+
+    .user-task__header {
+      align-items: center;
+      background: transparent;
+      border: 0;
+      color: inherit;
+      cursor: pointer;
+      display: flex;
+      font-size: 21px;
+      font-weight: 900;
+      justify-content: space-between;
+      padding: 6px 10px 0;
+      text-align: left;
+      width: 100%;
+    }
+
+    .user-task__arrow {
+      font-size: 30px;
+      line-height: 1;
+    }
+
+    .user-task__summary {
+      font-size: 21px;
+      font-weight: 700;
+      padding: 0 10px 8px;
+    }
+
+    .user-task__body {
+      display: grid;
+      gap: 8px;
+      grid-template-columns: 1fr 78px;
+      padding: 0 10px 8px;
+    }
+
+    .user-task__details {
+      font-size: 21px;
+      line-height: 1.35;
+    }
+
+    .account-photo {
+      align-items: center;
+      align-self: start;
+      background: var(--user-blue);
+      border-radius: 50%;
+      display: flex;
+      font-size: 15px;
+      height: 78px;
+      justify-content: center;
+      line-height: 1.1;
+      text-align: center;
+      white-space: pre-line;
+      width: 78px;
+    }
+
+    .finish-list {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+      grid-column: 1 / -1;
+    }
+
+    .finish-row {
+      align-items: center;
+      display: grid;
+      gap: 6px;
+      grid-template-columns: 1fr auto;
+    }
+
+    .finish-row span {
+      background: var(--user-grey);
+      border-radius: 8px;
+      color: #ffffff;
+      font-size: 18px;
+      padding: 3px 6px;
+    }
+
+    .finish-button {
+      background: var(--user-panel-white);
+      border: 0;
+      border-radius: 999px;
+      color: #1e1e1e;
+      cursor: pointer;
+      font-size: 17px;
+      font-weight: 900;
+      padding: 4px 10px;
+    }
+
+    .finish-button--finished {
+      background: #4b4b4b;
+      color: #ffffff;
+    }
+  `;
+
+  document.head.append(style);
+}
+
 function getDisplayTime() {
   return selectedDate.toLocaleTimeString('en-GB', {
     hour: 'numeric',
@@ -172,6 +379,8 @@ function renderUserHomepage() {
   if (!userHomepageRoot) {
     return;
   }
+
+  injectUserHomepageStyles();
 
   userHomepageRoot.innerHTML = `
     <main class="elderly-home-screen" aria-label="Elderly user home screen">
