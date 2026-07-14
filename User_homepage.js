@@ -1,10 +1,10 @@
 (() => {
   const tasks = [
     {
-      time: "7:30am",
-      title: "Jo is coming",
-      note: "Do before she comes",
-      person: "Jo",
+      time: "7:30am", //replace with actual time of task
+      title: "Jo is coming",//replace with actual title
+      note: "Do before she comes",//replace with actual description
+      person: "Jo", //change for the name of the account "coming" ##POTENTIALLY REMOVE##
       checklist: [
         { text: "eat breakfast", done: false },
         { text: "pick up paper", done: true },
