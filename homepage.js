@@ -33,6 +33,9 @@ const newTaskDraft = {
 
 let tasksOpen = false;
 let activeScreen = 'calendar';
+let tasksOpen = false;
+let sidePanel = null;
+let grandpaCalendarOpen = false;
 
 function buildCalendarMonth(year, monthIndex) {
   const firstDate = new Date(year, monthIndex, 1);
@@ -68,7 +71,7 @@ function buildCalendar() {
 
 function buildClosedTaskBar() {
   return `
-    <button class="task-dropdown" type="button" aria-expanded="false" data-toggle-tasks>
+    <button class="task-dropdown" type="button" aria-expanded="false">
       <span>TASKS ASSIGNED FOR TODAY</span>
       <span class="task-dropdown__arrow" aria-hidden="true">⌄</span>
     </button>
@@ -78,7 +81,7 @@ function buildClosedTaskBar() {
 function buildOpenTaskPanel() {
   return `
     <section class="task-panel" aria-label="Tasks assigned for today">
-      <button class="task-dropdown task-dropdown--open" type="button" aria-expanded="true" data-toggle-tasks>
+      <button class="task-dropdown task-dropdown--open" type="button" aria-expanded="true">
         <span>TASKS ASSIGNED FOR TODAY</span>
         <span class="task-dropdown__arrow" aria-hidden="true">⌃</span>
       </button>
@@ -110,175 +113,158 @@ function buildOpenTaskPanel() {
   `;
 }
 
-function buildAddTaskScreen() {
+function buildMainCalendarScreen() {
   return `
-    <main class="admin-calendar-screen add-task-screen" aria-label="Create new task screen">
-      <section class="create-task-panel">
-        <button class="cancel-task" type="button" data-cancel-task>Cancel</button>
-        <h1>Create new<br>Task</h1>
-        <label>
-          <span class="visually-hidden">Task title</span>
-          <input class="task-input" name="title" placeholder="Task title" value="${newTaskDraft.title}">
-        </label>
-        <label>
-          <span class="visually-hidden">Description</span>
-          <textarea class="task-input task-description" name="description" placeholder="Description">${newTaskDraft.description}</textarea>
-        </label>
-        <label>
-          <span class="visually-hidden">Date</span>
-          <input class="task-input" name="date" placeholder="DD/MM/YY" value="${newTaskDraft.date}">
-        </label>
-        <div class="time-row">
-          <label>
-            <span class="visually-hidden">Time</span>
-            <input class="task-input time-input" name="time" placeholder="Time" value="${newTaskDraft.time}">
-          </label>
-          <button class="period-button ${newTaskDraft.period === 'AM' ? 'period-button--selected' : ''}" type="button" data-period="AM">AM</button>
-          <button class="period-button ${newTaskDraft.period === 'PM' ? 'period-button--selected' : ''}" type="button" data-period="PM">PM</button>
-        </div>
-        <section class="checklist-editor" aria-label="Checklist">
-          <h2>Checklist</h2>
-          <div class="new-checklist-row">
-            <input name="checklistInput" placeholder="Enter new item" value="${newTaskDraft.checklistInput}">
-            <button type="button" data-add-checklist-item aria-label="Add checklist item">+</button>
-          </div>
-          <ul>
-            ${newTaskDraft.checklist
-              .map(
-                (item, index) => `
-                  <li>
-                    <span>${item}</span>
-                    <button type="button" data-remove-checklist-item="${index}" aria-label="Remove ${item}">×</button>
-                  </li>
-                `,
-              )
-              .join('')}
-          </ul>
-        </section>
-        <button class="add-account-button" type="button" data-add-account>Add account</button>
-        <button class="create-task-button" type="button" data-create-task>Create</button>
-      </section>
-    </main>
+    <button class="menu-button" type="button" aria-label="Open menu">☰</button>
+    <header class="date-header">
+      <strong>17</strong>
+      <span>MARCH</span>
+    </header>
+    ${tasksOpen ? buildOpenTaskPanel() : buildClosedTaskBar()}
+    <section class="calendar-scroll" aria-label="Scrollable calendar months">
+      ${buildCalendar()}
+    </section>
+    <button class="add-task" type="button" aria-label="Create new task">+</button>
   `;
 }
 
-function buildCalendarScreen() {
+function buildGrandpaCalendarPanel() {
+  if (!grandpaCalendarOpen) {
+    return '';
+  }
+
   return `
-    <main class="admin-calendar-screen" aria-label="Admin calendar screen">
-      <button class="menu-button" type="button" aria-label="Open settings">☰</button>
-      <header class="date-header">
-        <strong>17</strong>
-        <span>MARCH</span>
-      </header>
-      ${tasksOpen ? buildOpenTaskPanel() : buildClosedTaskBar()}
-      <section class="calendar-scroll" aria-label="Scrollable calendar months">
-        ${buildCalendar()}
-      </section>
-      <button class="add-task" type="button" aria-label="Create new task" data-open-add-task>+</button>
-    </main>
+    <section class="account-calendar" aria-label="Grandpa calendar details">
+      <h2>Calendars</h2>
+      <div class="calendar-row">
+        <strong>Medication</strong>
+        <button class="calendar-remove" type="button">remove</button>
+        <button class="calendar-show" type="button">show</button>
+      </div>
+      <h2>recently completed tasks</h2>
+      <div class="recent-task">
+        <span>completed</span>
+        <span class="recent-task__check" aria-hidden="true">✓</span>
+      </div>
+    </section>
   `;
 }
 
-function syncDraftFromForm() {
-  const form = calendarRoot.querySelector('.create-task-panel');
-
-  if (!form) {
-    return;
-  }
-
-  newTaskDraft.title = form.querySelector('[name="title"]').value;
-  newTaskDraft.description = form.querySelector('[name="description"]').value;
-  newTaskDraft.date = form.querySelector('[name="date"]').value;
-  newTaskDraft.time = form.querySelector('[name="time"]').value;
-  newTaskDraft.checklistInput = form.querySelector('[name="checklistInput"]').value;
+function buildMenuPanel() {
+  return `
+    <section class="side-panel side-panel--menu" aria-label="Menu">
+      <button class="settings-cog" type="button" aria-label="Open settings">⚙</button>
+      <nav class="menu-links" aria-label="Admin menu links">
+        <button type="button">All tasks</button>
+        <button type="button">All lists</button>
+        <button type="button">Calendars</button>
+      </nav>
+      <h2>Users</h2>
+      <button class="account-select" type="button" aria-expanded="${grandpaCalendarOpen}">
+        <span class="account-avatar" aria-hidden="true">●</span>
+        <span>Grandpa</span>
+        <span aria-hidden="true">⌄</span>
+      </button>
+      ${buildGrandpaCalendarPanel()}
+      <h2>Admins</h2>
+      <div class="admin-account">
+        <span class="account-avatar" aria-hidden="true">●</span>
+        <span>Admin 1</span>
+      </div>
+    </section>
+  `;
 }
 
-function addChecklistItem() {
-  syncDraftFromForm();
-  const item = newTaskDraft.checklistInput.trim();
-
-  if (item) {
-    newTaskDraft.checklist.push(item);
-    newTaskDraft.checklistInput = '';
-  }
-
-  renderHomepage();
+function buildSettingsPanel() {
+  return `
+    <section class="side-panel side-panel--settings" aria-label="Settings">
+      <button class="menu-button menu-button--inside" type="button" aria-label="Return to menu">☰</button>
+      <label class="setting-row">
+        <span>Text size</span>
+        <input type="range" min="0" max="100" value="50" aria-label="Text size" />
+        <output>50</output>
+      </label>
+      <fieldset class="theme-picker">
+        <legend>Theme</legend>
+        <button class="theme-dot theme-dot--white" type="button" aria-label="White theme"></button>
+        <button class="theme-dot theme-dot--blue" type="button" aria-label="Blue theme"></button>
+        <button class="theme-dot theme-dot--orange" type="button" aria-label="Orange theme"></button>
+      </fieldset>
+      <button class="create-account" type="button">create new account</button>
+      <button class="search-accounts" type="button">Search accounts</button>
+    </section>
+  `;
 }
 
-function createTask() {
-  syncDraftFromForm();
-  tasks.push({
-    title: newTaskDraft.title || 'New task',
-    items: [...newTaskDraft.checklist],
-  });
-  resetTaskDraft();
-  activeScreen = 'calendar';
+function buildSidePanelOverlay() {
+  if (!sidePanel) {
+    return '';
+  }
+
+  return `
+    <div class="menu-overlay" aria-label="Open menu overlay">
+      ${sidePanel === 'settings' ? buildSettingsPanel() : buildMenuPanel()}
+      <button class="menu-backdrop" type="button" aria-label="Close menu and return to calendar"></button>
+    </div>
+  `;
+}
+
+function closeToOpenCalendar() {
+  sidePanel = null;
+  grandpaCalendarOpen = false;
   tasksOpen = true;
-  renderHomepage();
 }
 
-function resetTaskDraft() {
-  newTaskDraft.title = '';
-  newTaskDraft.description = '';
-  newTaskDraft.date = '';
-  newTaskDraft.time = '';
-  newTaskDraft.period = 'AM';
-  newTaskDraft.checklistInput = '';
-  newTaskDraft.checklist = ['Checklist item'];
-}
+function bindHomepageEvents() {
+  const taskDropdown = calendarRoot.querySelector('.task-dropdown');
+  if (taskDropdown) {
+    taskDropdown.addEventListener('click', () => {
+      tasksOpen = !tasksOpen;
+      renderHomepage();
+    });
+  }
 
-function bindCalendarEvents() {
-  calendarRoot.querySelector('[data-toggle-tasks]')?.addEventListener('click', () => {
-    tasksOpen = !tasksOpen;
-    renderHomepage();
-  });
-
-  calendarRoot.querySelector('[data-open-add-task]')?.addEventListener('click', () => {
-    activeScreen = 'addTask';
-    renderHomepage();
-  });
-}
-
-function bindAddTaskEvents() {
-  calendarRoot.querySelector('[data-cancel-task]')?.addEventListener('click', () => {
-    resetTaskDraft();
-    activeScreen = 'calendar';
-    renderHomepage();
-  });
-
-  calendarRoot.querySelectorAll('.create-task-panel input, .create-task-panel textarea').forEach((input) => {
-    input.addEventListener('input', syncDraftFromForm);
-  });
-
-  calendarRoot.querySelectorAll('[data-period]').forEach((button) => {
+  calendarRoot.querySelectorAll('.menu-button').forEach((button) => {
     button.addEventListener('click', () => {
-      syncDraftFromForm();
-      newTaskDraft.period = button.dataset.period;
+      sidePanel = sidePanel === 'settings' ? 'menu' : 'menu';
       renderHomepage();
     });
   });
 
-  calendarRoot.querySelector('[data-add-checklist-item]')?.addEventListener('click', addChecklistItem);
-
-  calendarRoot.querySelectorAll('[data-remove-checklist-item]').forEach((button) => {
-    button.addEventListener('click', () => {
-      syncDraftFromForm();
-      newTaskDraft.checklist.splice(Number(button.dataset.removeChecklistItem), 1);
+  const settingsCog = calendarRoot.querySelector('.settings-cog');
+  if (settingsCog) {
+    settingsCog.addEventListener('click', () => {
+      sidePanel = 'settings';
       renderHomepage();
     });
-  });
+  }
 
-  calendarRoot.querySelector('[data-create-task]')?.addEventListener('click', createTask);
+  const accountSelect = calendarRoot.querySelector('.account-select');
+  if (accountSelect) {
+    accountSelect.addEventListener('click', () => {
+      grandpaCalendarOpen = !grandpaCalendarOpen;
+      renderHomepage();
+    });
+  }
+
+  const backdrop = calendarRoot.querySelector('.menu-backdrop');
+  if (backdrop) {
+    backdrop.addEventListener('click', () => {
+      closeToOpenCalendar();
+      renderHomepage();
+    });
+  }
 }
 
 function renderHomepage() {
-  calendarRoot.innerHTML = activeScreen === 'addTask' ? buildAddTaskScreen() : buildCalendarScreen();
+  calendarRoot.innerHTML = `
+    <main class="admin-calendar-screen" aria-label="Admin calendar screen">
+      ${buildMainCalendarScreen()}
+      ${buildSidePanelOverlay()}
+    </main>
+  `;
 
-  if (activeScreen === 'addTask') {
-    bindAddTaskEvents();
-  } else {
-    bindCalendarEvents();
-  }
+  bindHomepageEvents();
 }
 
 renderHomepage();

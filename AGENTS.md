@@ -14,3 +14,9 @@ When working from reference images:
 - Number multiple screens from left to right, unless the image has explicit labels that provide a different screen order.
 - When discussing or implementing UI from a reference image, name the relevant screen first, then describe the elements inside it.
 - If a user references an image and a screen number, use this screen-identification rule to locate the requested phone-front area before making code changes.
+A screen is the area, or multiple areas, in an image that looks like the front face of a phone. When identifying screens in design reference images, use the following cues:
+
+- Treat any phone-front-shaped area as a screen, even when several appear in the same image.
+- Prefer black or mostly black rectangular phone-front areas as screen candidates, because the screen's major colour is usually black in the provided references.
+- Do not ignore extra phone-front areas in multi-screen mockups; each one should be considered independently.
+- When discussing or implementing UI from a reference image, name the relevant screen first, then describe the elements inside it.
