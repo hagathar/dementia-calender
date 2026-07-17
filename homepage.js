@@ -21,6 +21,18 @@ const tasks = [
   { title: 'first task', items: ['first list item', 'first list item'] },
 ];
 
+const newTaskDraft = {
+  title: '',
+  description: '',
+  date: '',
+  time: '',
+  period: 'AM',
+  checklistInput: '',
+  checklist: ['Checklist item'],
+};
+
+let tasksOpen = false;
+let activeScreen = 'calendar';
 let tasksOpen = false;
 let sidePanel = null;
 let grandpaCalendarOpen = false;
