@@ -36,10 +36,8 @@ class Task_data():
         return self.query("SELECT * FROM Tasks_Table WHERE status = 'uncompleted'")
 
         
-    def GetCompletedLists(self):
+    def GetLists(self, ListID):
 
-        return self.query("SELECT * FROM Lists_Table WHERE status = 'completed'")
+        return self.query("SELECT * FROM Lists_Table WHERE ListID = %s ", (ListID,))
 
-    def GetUncompletedLists(self):
 
-        return self.query("SELECT * FROM Lists_Table WHERE status = 'uncompleted'")
