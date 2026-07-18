@@ -390,196 +390,251 @@ body {
   color: #ffffff;
 }
 
-/* Admin create task screen */
-.add-task-screen {
-  align-items: center;
-  display: flex;
-  justify-content: center;
-  padding: 16px;
+.menu-overlay {
+  inset: 0;
+  position: absolute;
+  z-index: 10;
 }
 
-.create-task-panel {
-  background: var(--panel-white);
-  border-radius: 8px;
-  color: var(--text-black);
-  min-height: 500px;
-  padding: 8px 18px;
-  position: relative;
-  width: 100%;
+.side-panel {
+  background: #111214;
+  color: var(--panel-white);
+  height: 100%;
+  left: 0;
+  padding: 14px 12px;
+  position: absolute;
+  top: 0;
+  width: 210px;
+  z-index: 12;
 }
 
-.cancel-task {
-  background: var(--screen-black);
+.side-panel--settings {
+  padding-top: 54px;
+}
+
+.menu-backdrop {
+  background: rgba(175, 175, 175, 0.68);
   border: 0;
-  border-radius: 8px;
+  cursor: pointer;
+  height: 100%;
+  position: absolute;
+  right: 0;
+  top: 0;
+  width: calc(100% - 210px);
+  z-index: 11;
+}
+
+.settings-cog,
+.menu-button--inside {
+  background: transparent;
+  border: 0;
   color: var(--panel-white);
   cursor: pointer;
-  font-size: 22px;
+  font-size: 28px;
   font-weight: 900;
-  left: 8px;
-  padding: 2px 8px;
+  left: 10px;
   position: absolute;
   top: 8px;
 }
 
-.create-task-panel h1 {
-  font-size: 36px;
-  font-weight: 900;
-  line-height: 0.86;
-  margin: 44px 0 10px;
-  text-align: center;
+.menu-links {
+  display: flex;
+  flex-direction: column;
+  gap: 9px;
+  margin-top: 42px;
 }
 
-.task-input,
-.new-checklist-row input {
-  background: var(--soft-grey);
+.menu-links button {
+  background: transparent;
   border: 0;
-  border-radius: 10px;
-  color: var(--text-black);
-  display: block;
-  font-size: 19px;
-  font-weight: 900;
-  margin: 8px 0;
-  padding: 4px 10px;
-  text-align: center;
-  width: 100%;
-}
-
-.task-input::placeholder,
-.new-checklist-row input::placeholder {
-  color: #8a8a8a;
-  opacity: 1;
-}
-
-.task-description {
-  height: 54px;
-  resize: vertical;
-}
-
-.time-row {
-  align-items: center;
-  display: grid;
-  gap: 6px;
-  grid-template-columns: 1fr 56px 56px;
-}
-
-.time-input {
-  margin: 0;
-}
-
-.period-button {
-  background: var(--soft-grey);
-  border: 0;
-  border-radius: 10px;
-  color: var(--text-black);
+  color: var(--panel-white);
   cursor: pointer;
-  font-size: 20px;
+  font-size: 13px;
   font-weight: 900;
-  padding: 6px 0;
-}
-
-.period-button--selected {
-  background: var(--screen-black);
-  color: var(--panel-white);
-}
-
-.checklist-editor {
-  margin-top: 8px;
-}
-
-.checklist-editor h2 {
-  background: var(--screen-black);
-  border-radius: 7px 7px 0 0;
-  color: var(--panel-white);
-  font-size: 21px;
-  font-weight: 900;
-  margin: 0;
-  padding: 3px;
-  text-align: center;
-}
-
-.new-checklist-row {
-  align-items: center;
-  background: var(--screen-black);
-  display: grid;
-  gap: 4px;
-  grid-template-columns: 1fr 34px;
-  padding: 0 4px 4px;
-}
-
-.new-checklist-row input {
-  margin: 0;
+  padding: 0;
   text-align: left;
 }
 
-.new-checklist-row button,
-.checklist-editor li button {
-  background: var(--panel-white);
-  border: 2px solid var(--screen-black);
-  border-radius: 50%;
-  color: var(--text-black);
-  cursor: pointer;
-  font-size: 28px;
-  font-weight: 900;
-  height: 34px;
-  line-height: 0.8;
-  width: 34px;
+.side-panel h2 {
+  font-size: 13px;
+  margin: 14px 0 5px;
 }
 
-.checklist-editor ul {
-  list-style: none;
-  margin: 0;
+.account-select,
+.admin-account {
+  align-items: center;
+  background: var(--panel-white);
+  border: 1px solid #cfcfcf;
+  border-radius: 4px;
+  color: var(--text-black);
+  display: grid;
+  font-size: 13px;
+  font-weight: 900;
+  gap: 5px;
+  grid-template-columns: 22px 1fr 18px;
+  min-height: 28px;
+  padding: 3px 5px;
+  width: 100%;
+}
+
+.account-select {
+  cursor: pointer;
+}
+
+.admin-account {
+  background: transparent;
+  border: 0;
+  color: var(--panel-white);
+  grid-template-columns: 22px 1fr;
+  padding-left: 0;
+}
+
+.account-avatar {
+  align-items: center;
+  background: #39a8f2;
+  border-radius: 50%;
+  color: #cfefff;
+  display: inline-flex;
+  height: 22px;
+  justify-content: center;
+  width: 22px;
+}
+
+.account-calendar {
+  background: var(--panel-white);
+  color: var(--text-black);
+  margin-top: 4px;
+  min-height: 190px;
+  padding: 5px;
+}
+
+.account-calendar h2 {
+  color: var(--text-black);
+  font-size: 10px;
+  margin: 4px 0 2px;
+}
+
+.calendar-row,
+.recent-task {
+  align-items: center;
+  display: grid;
+  font-size: 10px;
+  gap: 4px;
+  grid-template-columns: 1fr auto auto;
+  min-height: 22px;
+}
+
+.calendar-remove,
+.calendar-show {
+  border: 1px solid #b8b8b8;
+  border-radius: 999px;
+  cursor: pointer;
+  font-size: 8px;
+  font-weight: 900;
+  padding: 3px 4px;
+}
+
+.calendar-remove {
+  background: #ed2e38;
+  color: #ffffff;
+}
+
+.calendar-show {
+  background: #ffffff;
+  color: var(--text-black);
+}
+
+.recent-task {
+  background: #dcdcdc;
+  grid-template-columns: 1fr auto;
+  margin-top: 18px;
+}
+
+.recent-task__check {
+  align-items: center;
+  background: #1f9c73;
+  color: #ffffff;
+  display: inline-flex;
+  font-weight: 900;
+  height: 20px;
+  justify-content: center;
+  width: 42px;
+}
+
+.setting-row {
+  align-items: center;
+  display: grid;
+  font-size: 13px;
+  font-weight: 900;
+  gap: 8px;
+  grid-template-columns: auto 1fr 28px;
+  margin-bottom: 20px;
+}
+
+.setting-row input {
+  accent-color: var(--panel-white);
+  width: 100%;
+}
+
+.setting-row output {
+  border: 1px solid var(--panel-white);
+  font-size: 11px;
+  padding: 1px 3px;
+  text-align: center;
+}
+
+.theme-picker {
+  border: 0;
+  margin: 0 0 18px;
   padding: 0;
 }
 
-.checklist-editor li {
-  align-items: center;
-  background: var(--panel-white);
-  border: 3px solid var(--screen-black);
-  border-radius: 8px;
-  display: grid;
-  font-size: 21px;
+.theme-picker legend {
+  font-size: 13px;
   font-weight: 900;
-  gap: 4px;
-  grid-template-columns: 1fr 34px;
-  margin-top: 4px;
-  padding-left: 4px;
+  margin-bottom: 8px;
 }
 
-.add-account-button {
-  background: var(--panel-white);
-  border: 2px solid #d33d3d;
-  border-radius: 999px;
-  color: #d33d3d;
+.theme-dot {
+  border: 2px solid var(--panel-white);
+  border-radius: 50%;
+  cursor: pointer;
+  height: 34px;
+  margin-right: 12px;
+  width: 34px;
+}
+
+.theme-dot--white {
+  background: #ffffff;
+}
+
+.theme-dot--blue {
+  background: #117fe6;
+}
+
+.theme-dot--orange {
+  background: #ff9140;
+}
+
+.create-account,
+.search-accounts {
+  border: 0;
+  border-radius: 4px;
   cursor: pointer;
   display: block;
-  font-size: 18px;
-  font-weight: 700;
-  margin: 8px auto 28px;
-  padding: 2px 36px;
-}
-
-.create-task-button {
-  background: var(--screen-black);
-  border: 0;
-  border-radius: 9px;
-  bottom: 8px;
-  color: var(--panel-white);
-  cursor: pointer;
-  font-size: 22px;
+  font-size: 13px;
   font-weight: 900;
-  left: 26px;
-  padding: 4px;
-  position: absolute;
-  right: 26px;
+  margin-bottom: 10px;
+  min-height: 34px;
+  width: 100%;
 }
 
-.visually-hidden {
-  clip: rect(0 0 0 0);
-  clip-path: inset(50%);
-  height: 1px;
-  overflow: hidden;
-  position: absolute;
-  white-space: nowrap;
-  width: 1px;
+.create-account {
+  background: var(--accent-green);
+  color: var(--text-black);
+}
+
+.search-accounts {
+  background: var(--panel-white);
+  color: var(--text-black);
 }
